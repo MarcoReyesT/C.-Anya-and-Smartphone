@@ -7,10 +7,8 @@ package anyasmartphone;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 /**
  *
@@ -21,8 +19,8 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    static private ArrayList apps = new ArrayList();
-    static private Map<Integer, Integer> aplicaciones = new LinkedHashMap<>();
+    static private ArrayList<Integer> apps = new ArrayList();
+    static private Map<Integer, Integer> aplicaciones = new HashMap<>();
     static int cantApp;
     static int cantRun;
     static int cantPantalla;
@@ -41,16 +39,19 @@ public class Main {
         //ejecutar = new int[cantRun];
 
         //Map<Integer, Integer> aplicaciones = new HashMap<>();
+        int appId;
         for (int i = 0; i < cantApp; i++) {
-            aplicaciones.put(in.nextInt(), i);
+            appId = in.nextInt();
+            apps.add(i, appId);
+            aplicaciones.put(appId, i);
         }
-        int acciones = 0;
+        long acciones = 0;
         int app;
         for (int i = 0; i < cantRun; i++) {
             app = in.nextInt();
             acciones += contarAcc(app);
             acciones++;
-            System.out.println("Acciones pocicion "+i+": "+acciones);
+            //System.out.println("Acciones pocicion "+i+": "+acciones);
             ordenar(app);
         }
 //        if (cantApp==10) {
@@ -74,23 +75,19 @@ public class Main {
     }
 
     private static void ordenar(int app) {
-        System.out.println("orden: " + aplicaciones);
+        //System.out.println("orden: " + aplicaciones);
         if (aplicaciones.get(app) > 0) {
             int aux = aplicaciones.get(app);
-            //System.out.println("aux: " + aux);
-            aplicaciones.put(aplicaciones.get(aux - 1), aux);
+            apps.set(aux, apps.get(aux - 1));
+            apps.set(aux - 1, app);
+            
             aplicaciones.put(app, aux - 1);
+            aplicaciones.put(apps.get(aux), aux);
             //aplicaciones.put(aplicaciones.get(aux - 1), aux);
         }
-        System.out.println("orden: " + aplicaciones);
+        //System.out.println(apps);
+        //System.out.println("orden: " + aplicaciones);
         
-//        Map<Integer, String> linkedHashMap = new LinkedHashMap<Integer, String>();
-//        System.out.println("Foreach: Forma alternativa para recorrer los Map mostrando la Clave y el valor:");
-//        for (Entry<Integer, String> jugador : linkedHashMap.entrySet()){
-//            Integer clave = jugador.getKey();
-//            String valor = jugador.getValue();
-//            System.out.println(clave+"  ->  "+valor);
-//        }
     }
 
 }
